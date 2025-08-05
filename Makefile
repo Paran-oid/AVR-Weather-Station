@@ -1,6 +1,6 @@
 PROGRAMMER = arduino
 PORT = /dev/ttyACM0 9600
-²BAUDRATE = 115200
+BAUDRATE = 115200
 
 MCU = atmega328p
 F_CPU = 16000000UL
@@ -10,12 +10,12 @@ SRC = main.c
 
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Ilib/internal/twi -Ilib/internal/pwm -Ilib/internal/usart -Ilib/internal/adc -Ilib/external/ds1302 -Iutils
+CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Ilib/internal/twi -Ilib/internal/pwm -Ilib/internal/usart -Ilib/internal/adc -Ilib/external/ds1302 -Iutils -Ilib/external/lcd
 LDFLAGS = -mmcu=$(MCU)
 
 all:$(TARGET).hex
 
-$(TARGET).elf: $(SRC) lib/internal/twi/twi.c lib/internal/usart/usart.c utils/core.c lib/external/ds1302/ds1302.c
+$(TARGET).elf: $(SRC) lib/internal/twi/twi.c lib/internal/usart/usart.c utils/core.c lib/external/ds1302/ds1302.c lib/external/lcd/lcd.c
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(TARGET).hex: $(TARGET).elf

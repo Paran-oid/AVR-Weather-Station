@@ -4,6 +4,7 @@
 #include <avr/io.h>
 
 #define BUF_SIZE 120
+#define debug_init() (DDRB |= (1 << DDB4))
 
 uint32_t str_len(const char str[]);
 void str_prepend(char dst[], const char src[]);

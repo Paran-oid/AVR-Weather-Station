@@ -116,7 +116,21 @@ void ds1302_get_time(struct ds1302_time_t* t) {
 }
 
 void ds1302_time_to_str(char buffer[], const struct ds1302_time_t* t) {
-    buffer[0] = '\0';  // start empty
+    buffer[0] = '\0';
+
+    char time_buf[16];
+    char date_buf[16];
+
+    ds1302_date_extract(date_buf, t);
+    ds1302_time_extract(time_buf, t);
+
+    str_append(buffer, date_buf);
+    str_append(buffer, " ");
+    str_append(buffer, time_buf);
+}
+
+void ds1302_date_extract(char buffer[], const struct ds1302_time_t* t) {
+    buffer[0] = '\0';
     char temp[20];
 
     // Year "20xx"
@@ -145,6 +159,11 @@ void ds1302_time_to_str(char buffer[], const struct ds1302_time_t* t) {
         (t->dow >= 1 && t->dow <= 7) ? WeekDays[t->dow - 1] : "Unknown";
     str_append(buffer, dow_str);
     str_append(buffer, " ");
+}
+
+void ds1302_time_extract(char buffer[], const struct ds1302_time_t* t) {
+    buffer[0] = '\0';
+    char temp[20];
 
     // Hour with leading zero
     if (t->hour < 10) str_append(buffer, "0");
