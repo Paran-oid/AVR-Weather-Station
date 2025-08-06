@@ -92,8 +92,28 @@ uint8_t ds1302_read_register(uint8_t reg) {
 }
 
 // TODO: implement me and make sure you are able to set time
-void ds1302_set_time(struct ds1302_time_t* t) {}
+void ds1302_set_time(struct ds1302_time_t* t) {
+    // Disable write protection
+    ds1302_write_register(0x8E, 0x00);
+
+    // Write time values (all in BCD)
+    ds1302_write_register(DS1302_CMD_WRITE_SECONDS,
+                          bin_to_bcd(t->second) & 0x7F);  // Clear CH
+    ds1302_write_register(DS1302_CMD_WRITE_MINUTES, bin_to_bcd(t->minute));
+    ds1302_write_register(DS1302_CMD_WRITE_HOURS,
+                          bin_to_bcd(t->hour) & 0x3F);  // 24h format
+    ds1302_write_register(DS1302_CMD_WRITE_DATE, bin_to_bcd(t->day));
+    ds1302_write_register(DS1302_CMD_WRITE_MONTH, bin_to_bcd(t->month));
+    ds1302_write_register(DS1302_CMD_WRITE_DAY, bin_to_bcd(t->dow));
+    ds1302_write_register(DS1302_CMD_WRITE_YEAR, bin_to_bcd(t->year));
+
+    // Re-enable write protection
+    ds1302_write_register(0x8E, 0x80);
+}
+
 void ds1302_get_time(struct ds1302_time_t* t) {
+    ds1302_write_register(0x8E, 0x00);
+
     // Read each register using your read_register function
     uint8_t raw_seconds = ds1302_read_register(DS1302_CMD_READ_SECONDS);
     uint8_t raw_minutes = ds1302_read_register(DS1302_CMD_READ_MINUTES);
@@ -113,6 +133,8 @@ void ds1302_get_time(struct ds1302_time_t* t) {
     t->month = bcd_to_bin(raw_month);
     t->dow = bcd_to_bin(raw_day);
     t->year = bcd_to_bin(raw_year);
+
+    ds1302_write_register(0x8E, 0x80);
 }
 
 void ds1302_time_to_str(char buffer[], const struct ds1302_time_t* t) {
@@ -154,11 +176,11 @@ void ds1302_date_extract(char buffer[], const struct ds1302_time_t* t) {
     temp[0] = '\0';
     str_append(buffer, " ");
 
-    // Weekday name
-    const char* dow_str =
-        (t->dow >= 1 && t->dow <= 7) ? WeekDays[t->dow - 1] : "Unknown";
-    str_append(buffer, dow_str);
-    str_append(buffer, " ");
+    // !Weekday name: DISABLED FOR LACK OF BITS
+    // const char* dow_str =
+    //     (t->dow >= 1 && t->dow <= 7) ? WeekDays[t->dow - 1] : "Unknown";
+    // str_append(buffer, dow_str);
+    // str_append(buffer, " ");
 }
 
 void ds1302_time_extract(char buffer[], const struct ds1302_time_t* t) {
