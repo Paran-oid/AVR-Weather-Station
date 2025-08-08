@@ -10,12 +10,12 @@ SRC = main.c
 
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Ilib/internal/twi -Ilib/internal/pwm -Ilib/internal/usart -Ilib/internal/adc -Ilib/external/ds1302 -Iutils -Ilib/external/lcd -Ilib/external/dht22
+CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Ilib/internal/twi -Ilib/internal/pwm -Ilib/internal/usart -Ilib/internal/adc -Ilib/external/ds1302 -Iutils -Ilib/external/lcd -Ilib/external/dht22 -Ilib/external/buttons
 LDFLAGS = -mmcu=$(MCU)
 
 all:$(TARGET).hex
 
-$(TARGET).elf: $(SRC) lib/internal/twi/twi.c lib/internal/usart/usart.c utils/core.c lib/external/ds1302/ds1302.c lib/external/lcd/lcd.c lib/external/dht22/dht22.c
+$(TARGET).elf: $(SRC) lib/internal/twi/twi.c lib/internal/usart/usart.c utils/core.c lib/external/ds1302/ds1302.c lib/external/lcd/lcd.c lib/external/dht22/dht22.c lib/external/buttons/buttons.c
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(TARGET).hex: $(TARGET).elf

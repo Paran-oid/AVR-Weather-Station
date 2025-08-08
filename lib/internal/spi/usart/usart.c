@@ -27,7 +27,7 @@ void usart_init(void) {
 }
 
 void usart_transmit_byte(uint8_t data) {
-    // wait for empty transmit buffer
+    // wait for empty transmit buf
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = data;  // send data
 }
@@ -37,13 +37,13 @@ uint8_t usart_receive_byte(void) {
     return UDR0;                          // return register value
 }
 
-// must pass an already defined buffer
-uint16_t usart_string_get(char buffer[], uint16_t buffer_size) {
+// must pass an already defined buf
+uint16_t usart_string_get(char buf[], uint16_t buf_size) {
     uint16_t i = 0;
     unsigned char byte;
 
     while (1) {
-        if (i >= buffer_size - 1) {
+        if (i >= buf_size - 1) {
             return 1;
         }
 
@@ -54,10 +54,10 @@ uint16_t usart_string_get(char buffer[], uint16_t buffer_size) {
             break;
         }
 
-        buffer[i++] = byte;
+        buf[i++] = byte;
     }
 
-    buffer[i] = '\0';
+    buf[i] = '\0';
 
     return i;
 }

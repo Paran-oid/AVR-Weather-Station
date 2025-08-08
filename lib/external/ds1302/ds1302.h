@@ -52,9 +52,9 @@ uint8_t ds1302_read_register(uint8_t reg);
 void ds1302_set_time(struct ds1302_time_t* t);
 void ds1302_get_time(struct ds1302_time_t* t);
 
-void ds1302_time_to_str(char buffer[], const struct ds1302_time_t* t);
+void ds1302_time_to_str(char buf[], const struct ds1302_time_t* t);
 
-void ds1302_date_extract(char buffer[], const struct ds1302_time_t* t);
-void ds1302_time_extract(char buffer[], const struct ds1302_time_t* t);
+void ds1302_date_extract(char buf[], const struct ds1302_time_t* t);
+void ds1302_time_extract(char buf[], const struct ds1302_time_t* t);
 
 #endif

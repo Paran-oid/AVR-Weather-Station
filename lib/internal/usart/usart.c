@@ -27,7 +27,7 @@ void usart_init(void) {
 }
 
 void usart_transmit_byte(uint8_t data) {
-    // wait for empty transmit buffer
+    // wait for empty transmit buf
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = data;  // send data
 }
@@ -37,13 +37,13 @@ uint8_t usart_receive_byte(void) {
     return UDR0;                          // return register value
 }
 
-// must pass an already defined buffer
-uint16_t usart_string_get(char buffer[], uint16_t buffer_size) {
+// must pass an already defined buf
+uint16_t usart_string_get(char buf[], uint16_t buf_size) {
     uint16_t i = 0;
     unsigned char byte;
 
     while (1) {
-        if (i >= buffer_size - 1) {
+        if (i >= buf_size - 1) {
             return 1;
         }
 
@@ -54,10 +54,10 @@ uint16_t usart_string_get(char buffer[], uint16_t buffer_size) {
             break;
         }
 
-        buffer[i++] = byte;
+        buf[i++] = byte;
     }
 
-    buffer[i] = '\0';
+    buf[i] = '\0';
 
     return i;
 }
@@ -85,4 +85,31 @@ void usart_print_binary(uint32_t num) {
     _itoa(num, buf, 2);
     usart_print_string("0b");
     usart_print_string(buf);
+}
+
+void usart_print_float(float num, uint8_t decimal_places) {
+    if (decimal_places > MAX_DECIMALS) return;
+
+    char int_str[10];
+    char fraction_str[10];
+
+    int_str[0] = fraction_str[0] = '\0';
+
+    int32_t int_part = (int32_t)num;
+    float fraction = num - int_part;
+
+    if (fraction < 0) {
+        fraction *= -1;
+    }
+
+    uint32_t scaled_fraciton = fraction * _pow(10, decimal_places);
+
+    _itoa(int_part, int_str, 10);
+    _itoa(scaled_fraciton, fraction_str, 10);
+
+    usart_print_string(int_str);
+    if (decimal_places != 0 && fraction_str[0] == '\0') {
+        usart_print_string(".");
+        usart_print_string(fraction_str);
+    }
 }

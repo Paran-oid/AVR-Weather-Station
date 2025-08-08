@@ -1,3 +1,5 @@
+# IDEA
+
 Building a weather station is an excellent project—real-world, embedded, sensor-heavy, and covers a lot of ground in hardware and software. Here’s how you can approach it:
 Core features for your embedded weather station:
 
@@ -50,3 +52,5 @@ Steps to build your weather station:
     Add power management: Implement sleep modes if using batteries.
 
     Optional: Add connectivity (Wi-Fi, Bluetooth) to send data remotely.
+
+    DOCUMENT EVERYTHING!

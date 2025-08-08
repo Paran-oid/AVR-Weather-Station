@@ -13,6 +13,7 @@ void usart_print_string(const char str[]);
 void usart_print_number(uint32_t num);
 void usart_print_hex(uint32_t num);
 void usart_print_binary(uint32_t num);
+void usart_print_float(float num, uint8_t decimal_places);
 
 uint16_t usart_string_get(char str[], uint16_t str_size);
 

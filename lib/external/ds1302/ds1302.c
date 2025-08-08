@@ -137,8 +137,8 @@ void ds1302_get_time(struct ds1302_time_t* t) {
     ds1302_write_register(0x8E, 0x80);
 }
 
-void ds1302_time_to_str(char buffer[], const struct ds1302_time_t* t) {
-    buffer[0] = '\0';
+void ds1302_time_to_str(char buf[], const struct ds1302_time_t* t) {
+    buf[0] = '\0';
 
     char time_buf[16];
     char date_buf[16];
@@ -146,63 +146,63 @@ void ds1302_time_to_str(char buffer[], const struct ds1302_time_t* t) {
     ds1302_date_extract(date_buf, t);
     ds1302_time_extract(time_buf, t);
 
-    str_append(buffer, date_buf);
-    str_append(buffer, " ");
-    str_append(buffer, time_buf);
+    str_append(buf, date_buf);
+    str_append(buf, " ");
+    str_append(buf, time_buf);
 }
 
-void ds1302_date_extract(char buffer[], const struct ds1302_time_t* t) {
-    buffer[0] = '\0';
+void ds1302_date_extract(char buf[], const struct ds1302_time_t* t) {
+    buf[0] = '\0';
     char temp[20];
 
     // Year "20xx"
-    str_append(buffer, "20");
+    str_append(buf, "20");
     _itoa(t->year, temp, 10);
-    str_append(buffer, temp);
+    str_append(buf, temp);
     temp[0] = '\0';
-    str_append(buffer, "-");
+    str_append(buf, "-");
 
     // Month with leading zero if needed
-    if (t->month < 10) str_append(buffer, "0");
+    if (t->month < 10) str_append(buf, "0");
     _itoa(t->month, temp, 10);
-    str_append(buffer, temp);
+    str_append(buf, temp);
     temp[0] = '\0';
-    str_append(buffer, "-");
+    str_append(buf, "-");
 
     // Day with leading zero if needed
-    if (t->day < 10) str_append(buffer, "0");
+    if (t->day < 10) str_append(buf, "0");
     _itoa(t->day, temp, 10);
-    str_append(buffer, temp);
+    str_append(buf, temp);
     temp[0] = '\0';
-    str_append(buffer, " ");
+    str_append(buf, " ");
 
     // !Weekday name: DISABLED FOR LACK OF BITS
     // const char* dow_str =
     //     (t->dow >= 1 && t->dow <= 7) ? WeekDays[t->dow - 1] : "Unknown";
-    // str_append(buffer, dow_str);
-    // str_append(buffer, " ");
+    // str_append(buf, dow_str);
+    // str_append(buf, " ");
 }
 
-void ds1302_time_extract(char buffer[], const struct ds1302_time_t* t) {
-    buffer[0] = '\0';
+void ds1302_time_extract(char buf[], const struct ds1302_time_t* t) {
+    buf[0] = '\0';
     char temp[20];
 
     // Hour with leading zero
-    if (t->hour < 10) str_append(buffer, "0");
+    if (t->hour < 10) str_append(buf, "0");
     _itoa(t->hour, temp, 10);
-    str_append(buffer, temp);
+    str_append(buf, temp);
     temp[0] = '\0';
-    str_append(buffer, ":");
+    str_append(buf, ":");
 
     // Minute with leading zero
-    if (t->minute < 10) str_append(buffer, "0");
+    if (t->minute < 10) str_append(buf, "0");
     _itoa(t->minute, temp, 10);
-    str_append(buffer, temp);
+    str_append(buf, temp);
     temp[0] = '\0';
-    str_append(buffer, ":");
+    str_append(buf, ":");
 
     // Second with leading zero
-    if (t->second < 10) str_append(buffer, "0");
+    if (t->second < 10) str_append(buf, "0");
     _itoa(t->second, temp, 10);
-    str_append(buffer, temp);
+    str_append(buf, temp);
 }
