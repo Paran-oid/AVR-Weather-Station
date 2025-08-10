@@ -44,7 +44,6 @@ int main(void) {
         _memset(buf2, 0, 16);
 
         if (current_mode) {
-            // TODO: fix this crap not showing up ffs
             struct ds1302_time_t t;
             ds1302_get_time(&t);
 
@@ -60,11 +59,9 @@ int main(void) {
         } else {
             struct dht22_temp d;
             dht22_read(&d);
-
             dht22_temperature_extract(buf2, &d);
             dht22_humidity_extract(buf1, &d);
 
-            // TODO: after debug enable me
             lcd_display_string(buf2, 0);
             lcd_display_string(buf1, 1);
 

@@ -91,7 +91,6 @@ uint8_t ds1302_read_register(uint8_t reg) {
     return res;
 }
 
-// TODO: implement me and make sure you are able to set time
 void ds1302_set_time(struct ds1302_time_t* t) {
     // Disable write protection
     ds1302_write_register(0x8E, 0x00);
@@ -176,7 +175,8 @@ void ds1302_date_extract(char buf[], const struct ds1302_time_t* t) {
     temp[0] = '\0';
     str_append(buf, " ");
 
-    // !Weekday name: DISABLED FOR LACK OF BITS
+    // ?DISABLED FOR LACK OF BITS
+    // Weekday name
     // const char* dow_str =
     //     (t->dow >= 1 && t->dow <= 7) ? WeekDays[t->dow - 1] : "Unknown";
     // str_append(buf, dow_str);

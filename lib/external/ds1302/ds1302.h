@@ -47,8 +47,6 @@ uint8_t ds1302_read_byte(void);
 void ds1302_write_register(uint8_t reg, uint8_t data);
 uint8_t ds1302_read_register(uint8_t reg);
 
-// TODO: implement set time(currently using arduino IDE ready-made code from a
-// TODO: library)
 void ds1302_set_time(struct ds1302_time_t* t);
 void ds1302_get_time(struct ds1302_time_t* t);
 
